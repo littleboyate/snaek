@@ -54,49 +54,6 @@ function drawGame() {
     });
 }
 
-function resetGame() {
-    snake = [{ x: 200, y: 200 }];
-    direction = { x: gridSize, y: 0 };
-    food = { x: getRandomPosition(), y: getRandomPosition() };
-    score = 0;
-}
-let specialFood = { x: getRandomPosition(), y: getRandomPosition() };
-let specialFoodActive = false;
-let specialFoodTimer = 0;
-let normalFoodCount = 0; // นับจำนวนครั้งที่กินอาหารปกติ
-
-function updateGame() {
-    // ตรวจสอบว่าถึงเวลาสร้างอาหารพิเศษหรือยัง
-    if (normalFoodCount >= 3 && !specialFoodActive) {
-        specialFood = { x: getRandomPosition(), y: getRandomPosition() };
-        specialFoodActive = true;
-        specialFoodTimer = 50; // อยู่ได้นาน 50 รอบ
-        normalFoodCount = 0; // รีเซ็ตตัวนับ
-    }
-
-    // วาดอาหารพิเศษ
-    if (specialFoodActive) {
-        drawRect("gold", specialFood.x, specialFood.y);
-        specialFoodTimer--;
-        if (specialFoodTimer <= 0) specialFoodActive = false;
-    }
-
-    // ถ้างูกินอาหารปกติ
-    if (snake[0].x === food.x && snake[0].y === food.y) {
-        score++;
-        normalFoodCount++; // เพิ่มจำนวนครั้งที่กินอาหารปกติ
-        food = { x: getRandomPosition(), y: getRandomPosition() };
-    }
-
-    // ถ้างูกินอาหารพิเศษ
-    if (snake[0].x === specialFood.x && snake[0].y === specialFood.y) {
-        score += 5;
-        specialFoodActive = false;
-    }
-}
-
-}
-
 
 document.addEventListener("keydown", (event) => {
     switch (event.key) {
