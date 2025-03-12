@@ -41,7 +41,9 @@ function updateGame() {
 
     drawGame();
 }
-
+function updateGame() {
+    document.getElementById("score").innerText = "Score: " + score;
+}
 function drawGame() {
     ctx.clearRect(0, 0, canvasSize, canvasSize);
 
