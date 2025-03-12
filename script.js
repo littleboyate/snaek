@@ -38,6 +38,28 @@ function updateGame() {
     } else {
         snake.pop();
     }
+
+    drawGame();
+}
+function updateGame() {
+    document.getElementById("score").innerText = "Score: " + score;
+}
+function drawGame() {
+    ctx.clearRect(0, 0, canvasSize, canvasSize);
+
+    drawRect("red", food.x, food.y);
+
+    snake.forEach((segment, index) => {
+        drawRect(index === 0 ? "lime" : "green", segment.x, segment.y);
+    });
+}
+
+function resetGame() {
+    snake = [{ x: 200, y: 200 }];
+    direction = { x: gridSize, y: 0 };
+    food = { x: getRandomPosition(), y: getRandomPosition() };
+    score = 0;
+}
 let specialFood = { x: getRandomPosition(), y: getRandomPosition() };
 let specialFoodActive = false;
 let specialFoodTimer = 0;
@@ -61,27 +83,6 @@ function updateGame() {
     }
 }
 
-    drawGame();
-}
-function updateGame() {
-    document.getElementById("score").innerText = "Score: " + score;
-}
-function drawGame() {
-    ctx.clearRect(0, 0, canvasSize, canvasSize);
-
-    drawRect("red", food.x, food.y);
-
-    snake.forEach((segment, index) => {
-        drawRect(index === 0 ? "lime" : "green", segment.x, segment.y);
-    });
-}
-
-function resetGame() {
-    snake = [{ x: 200, y: 200 }];
-    direction = { x: gridSize, y: 0 };
-    food = { x: getRandomPosition(), y: getRandomPosition() };
-    score = 0;
-}
 
 document.addEventListener("keydown", (event) => {
     switch (event.key) {
