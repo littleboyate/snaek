@@ -23,6 +23,24 @@ let specialFood = { x: getRandomPosition(), y: getRandomPosition() };
 let specialFoodActive = false;
 let specialFoodTimer = 0;
 let normalFoodCount = 0; // นับจำนวนครั้งที่กินอาหารปกติ
+let score = 0; // เพิ่มตัวแปรเก็บคะแนน
+
+function updateGame() {
+    // ตรวจสอบการกินอาหารปกติ
+    if (snake[0].x === food.x && snake[0].y === food.y) {
+        score++;  // เพิ่มคะแนน
+        document.getElementById("score").innerText = "Score: " + score; // อัปเดต HTML
+        normalFoodCount++; // เพิ่มตัวนับการกินอาหาร
+        food = { x: getRandomPosition(), y: getRandomPosition() };
+    }
+
+    // ตรวจสอบการกินอาหารพิเศษ
+    if (snake[0].x === specialFood.x && snake[0].y === specialFood.y) {
+        score += 5; // ได้ 5 คะแนนเมื่อกินอาหารพิเศษ
+        document.getElementById("score").innerText = "Score: " + score; // อัปเดต HTML
+        specialFoodActive = false;
+    }
+}
 
 function updateGame() {
     // ตรวจสอบว่าถึงเวลาสร้างอาหารพิเศษหรือยัง
