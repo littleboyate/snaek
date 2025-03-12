@@ -38,6 +38,28 @@ function updateGame() {
     } else {
         snake.pop();
     }
+let specialFood = { x: getRandomPosition(), y: getRandomPosition() };
+let specialFoodActive = false;
+let specialFoodTimer = 0;
+
+function updateGame() {
+    if (Math.random() < 0.01 && !specialFoodActive) {
+        specialFood = { x: getRandomPosition(), y: getRandomPosition() };
+        specialFoodActive = true;
+        specialFoodTimer = 50; // อยู่ได้นาน 50 รอบ
+    }
+
+    if (specialFoodActive) {
+        drawRect("gold", specialFood.x, specialFood.y);
+        specialFoodTimer--;
+        if (specialFoodTimer <= 0) specialFoodActive = false;
+    }
+
+    if (snake[0].x === specialFood.x && snake[0].y === specialFood.y) {
+        score += 5;
+        specialFoodActive = false;
+    }
+}
 
     drawGame();
 }
