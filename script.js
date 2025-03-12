@@ -19,6 +19,55 @@ function drawRect(color, x, y) {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, gridSize, gridSize);
 }
+let specialFood = { x: getRandomPosition(), y: getRandomPosition() };
+let specialFoodActive = false;
+let specialFoodTimer = 0;
+let normalFoodCount = 0; // นับจำนวนครั้งที่กินอาหารปกติ
+
+function updateGame() {
+    // ตรวจสอบว่าถึงเวลาสร้างอาหารพิเศษหรือยัง
+    if (normalFoodCount >= 3 && !specialFoodActive) {
+        spawnSpecialFood();
+    }
+
+    // วาดอาหารพิเศษถ้ามีอยู่
+    if (specialFoodActive) {
+        drawRect("gold", specialFood.x, specialFood.y);
+        handleSpecialFoodTimer();
+    }
+
+    // ตรวจสอบการกินอาหารปกติ
+    if (snake[0].x === food.x && snake[0].y === food.y) {
+        eatNormalFood();
+    }
+
+    // ตรวจสอบการกินอาหารพิเศษ
+    if (snake[0].x === specialFood.x && snake[0].y === specialFood.y) {
+        eatSpecialFood();
+    }
+}
+
+// ฟังก์ชันสร้างอาหารพิเศษ
+function spawnSpecialFood() {
+    specialFood = { x: getRandomPosition(), y: getRandomPosition() };
+    specialFoodActive = true;
+    specialFoodTimer = 50; // อยู่ได้นาน 50 รอบ
+    normalFoodCount = 0; // รีเซ็ตตัวนับอาหารปกติ
+}
+
+// ฟังก์ชันจัดการตัวจับเวลาอาหารพิเศษ
+function handleSpecialFoodTimer() {
+    specialFoodTimer--;
+    if (specialFoodTimer <= 0) {
+        specialFoodActive = false; // ซ่อนอาหารพิเศษเมื่อหมดเวลา
+    }
+}
+
+// ฟังก์ชันกินอาหารปกติ
+function eatNormalFood() {
+    score++;
+    normalFoodCount++; // เพิ่มจำนวนครั้งที่กินอาหารปกติ
+    food
 
 function updateGame() {
     const newHead = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
